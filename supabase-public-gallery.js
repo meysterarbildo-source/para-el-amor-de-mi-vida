@@ -1,7 +1,7 @@
 // Configuración pública de Supabase. La anon key está diseñada para usarse en el navegador;
 // la seguridad real la proporcionan las políticas RLS del proyecto.
 const SUPABASE_URL = 'https://welchmcywrbolrndyzpf.supabase.co';
-const SUPABASE_ANON_KEY = 'PEGA_AQUI_TU_ANON_KEY';
+const SUPABASE_ANON_KEY = 'sb_publishable_3G_WbRQBsAOLmcWGECXWOQ_wmva3bwt';
 
 (async () => {
   const root = document.getElementById('live-media');
