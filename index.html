@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Para el amor de mi vida</title>
+  <meta name="description" content="Una página especial para Ariana, con amor de Meyster." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --wine: #5f2338;
+      --rose: #b85c78;
+      --blush: #f8e8ed;
+      --cream: #fffaf7;
+      --gold: #c99b4a;
+      --ink: #351c28;
+      --shadow: 0 24px 70px rgba(95, 35, 56, .15);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--cream);
+      font-family: "Montserrat", sans-serif;
+    }
+    a { color: inherit; }
+    .hero {
+      min-height: 92vh;
+      display: grid;
+      place-items: center;
+      padding: 72px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(255,255,255,.9), transparent 25%),
+        radial-gradient(circle at 85% 12%, rgba(255,220,230,.75), transparent 28%),
+        linear-gradient(135deg, #f7dfe7, #fffaf7 58%, #f5e9d4);
+    }
+    .hero::before, .hero::after {
+      content: "♡";
+      position: absolute;
+      color: rgba(95,35,56,.12);
+      font-family: Georgia, serif;
+      font-size: 16rem;
+      line-height: 1;
+    }
+    .hero::before { left: -40px; bottom: -60px; transform: rotate(-18deg); }
+    .hero::after { right: -28px; top: 30px; transform: rotate(18deg); }
+    .hero-content { max-width: 850px; position: relative; z-index: 1; }
+    .eyebrow {
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--rose);
+      font-size: .75rem;
+      font-weight: 700;
+    }
+    h1, h2, h3 { font-family: "Cormorant Garamond", serif; }
+    h1 {
+      color: var(--wine);
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      line-height: .9;
+      margin: 22px 0;
+      font-weight: 700;
+    }
+    .hero p { font-size: 1.05rem; line-height: 1.8; max-width: 620px; margin: 0 auto 32px; }
+    .button {
+      display: inline-block;
+      background: var(--wine);
+      color: white;
+      text-decoration: none;
+      border-radius: 999px;
+      padding: 15px 26px;
+      font-weight: 700;
+      box-shadow: 0 10px 25px rgba(95, 35, 56, .2);
+      transition: transform .2s ease, background .2s ease;
+    }
+    .button:hover { transform: translateY(-3px); background: var(--rose); }
+
+    section { padding: 88px 24px; }
+    .section-inner { max-width: 1080px; margin: 0 auto; }
+    .section-heading { text-align: center; margin-bottom: 44px; }
+    .section-heading h2 { font-size: clamp(2.5rem, 5vw, 4.5rem); color: var(--wine); margin: 10px 0; }
+    .section-heading p { max-width: 650px; margin: 0 auto; line-height: 1.8; }
+
+    .counter-section { background: var(--wine); color: white; }
+    .counter-section .section-heading h2 { color: #fff5f0; }
+    .counter-section .section-heading p { color: #f7dfe7; }
+    .counter-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      max-width: 760px;
+      margin: auto;
+    }
+    .counter-card {
+      text-align: center;
+      padding: 22px 10px;
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 20px;
+      background: rgba(255,255,255,.08);
+      backdrop-filter: blur(6px);
+    }
+    .counter-number { display: block; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700; color: #ffdca8; }
+    .counter-label { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: #f7dfe7; }
+
+    .story-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: 54px; align-items: center; }
+    .story-seal {
+      width: min(100%, 330px); aspect-ratio: 1; margin: auto;
+      display: grid; place-items: center; text-align: center;
+      border: 1px solid var(--gold); border-radius: 50%;
+      background: radial-gradient(circle, #fff, #f9e8d9);
+      box-shadow: var(--shadow);
+      padding: 55px;
+      color: var(--wine);
+      font-family: "Cormorant Garamond", serif;
+      font-size: 2.2rem;
+      line-height: 1;
+    }
+    .story-copy { font-size: 1.15rem; line-height: 2; }
+    .signature { margin-top: 28px; color: var(--rose); font-family: "Cormorant Garamond", serif; font-size: 2rem; }
+
+    .music-section { background: #f8edf0; }
+    .music-card { max-width: 720px; margin: auto; padding: 20px; background: white; border-radius: 26px; box-shadow: var(--shadow); }
+    .music-card iframe { width: 100%; min-height: 152px; border: 0; border-radius: 14px; }
+    .music-note { text-align: center; margin: 18px 0 0; font-size: .9rem; color: #765361; }
+
+    .memory-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .memory-card {
+      min-height: 220px; padding: 24px; border-radius: 22px;
+      display: flex; align-items: end; color: white; overflow: hidden;
+      background: linear-gradient(145deg, #d98da5, #6e3048);
+      position: relative; box-shadow: 0 14px 35px rgba(95,35,56,.13);
+    }
+    .memory-card:nth-child(2) { background: linear-gradient(145deg, #d4a86c, #8a4b4b); }
+    .memory-card:nth-child(3) { background: linear-gradient(145deg, #af9bc5, #553d68); }
+    .memory-card::before { content: "✦"; position: absolute; right: 20px; top: 14px; font-size: 3rem; opacity: .5; }
+    .memory-card h3 { font-size: 2rem; margin: 0; }
+    .memory-card p { margin: 4px 0 0; opacity: .9; font-size: .85rem; }
+    .upload-hint { margin-top: 22px; text-align: center; color: #765361; font-size: .9rem; }
+    .live-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
+    .live-memory-card { overflow: hidden; border-radius: 18px; background: white; box-shadow: 0 12px 28px rgba(95,35,56,.1); }
+    .live-memory-card img, .live-memory-card video { display: block; width: 100%; height: 220px; object-fit: cover; background: #f3e1e7; }
+    .live-memory-card h3, .live-memory-card p { margin: 12px 16px; }
+    .live-memory-card h3 { color: var(--wine); font-size: 1.5rem; }
+    .live-memory-card p { color: #765361; font-size: .9rem; line-height: 1.5; }
+
+    footer { background: #2d1722; color: #f7dfe7; padding: 46px 24px; text-align: center; }
+    footer h2 { color: #ffdca8; font-size: 2.7rem; margin: 0 0 8px; }
+    footer p { margin: 0; }
+
+    @media (max-width: 720px) {
+      section { padding: 65px 18px; }
+      .counter-grid { grid-template-columns: repeat(2, 1fr); }
+      .story-layout { grid-template-columns: 1fr; gap: 32px; }
+      .memory-grid { grid-template-columns: 1fr; }
+      .story-copy { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-content">
+      <div class="eyebrow">Para Ariana, con todo mi amor</div>
+      <h1>Para el amor<br />de mi vida</h1>
+      <p>Una pequeña parte de todo lo que siento por ti, guardada en un lugar especial para nosotros.</p>
+      <a class="button" href="#historia">Leer nuestra historia</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="counter-section" id="contador">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div class="eyebrow">Desde aquel momento</div>
+          <h2>Tiempo compartido</h2>
+          <p>Desde el 8 de julio de 2026 a las 16:12. Y cada segundo contigo cuenta.</p>
+        </div>
+        <div class="counter-grid" aria-live="polite">
+          <div class="counter-card"><span class="counter-number" id="days">0</span><span class="counter-label">Días</span></div>
+          <div class="counter-card"><span class="counter-number" id="hours">0</span><span class="counter-label">Horas</span></div>
+          <div class="counter-card"><span class="counter-number" id="minutes">0</span><span class="counter-label">Minutos</span></div>
+          <div class="counter-card"><span class="counter-number" id="seconds">0</span><span class="counter-label">Segundos</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="historia">
+      <div class="section-inner story-layout">
+        <div class="story-seal">Meyster<br /><span style="color:var(--gold)">♡</span><br />Ariana</div>
+        <div>
+          <div class="eyebrow">Nuestra historia</div>
+          <h2 style="font-size:clamp(2.8rem, 6vw, 5rem); color:var(--wine); margin:12px 0 20px;">Donde todo comenzó</h2>
+          <div class="story-copy">Hay veces en las que no sabes que el amor de tu vida se encuentra en el mismo lugar que tú. Y así es como no supe hasta que empezamos a conocernos. Y ahora no puedo vivir sin ti.</div>
+          <div class="signature">Con amor, Meyster</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="music-section" id="canciones">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div class="eyebrow">Nuestra banda sonora</div>
+          <h2>Una canción para nosotros</h2>
+          <p>Este espacio queda listo para nuestra playlist conjunta. Mientras me compartes el enlace de la playlist, aquí está la canción que enviaste.</p>
+        </div>
+        <div class="music-card">
+          <iframe src="https://open.spotify.com/embed/track/0IBhXEEKXhv0bdpboaw5M3?utm_source=generator" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+          <p class="music-note"><a href="https://open.spotify.com/intl-es/track/0IBhXEEKXhv0bdpboaw5M3?si=b6c21bbdfd374650" target="_blank" rel="noopener">Abrir canción en Spotify</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="recuerdos">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div class="eyebrow">Nuestros recuerdos</div>
+          <h2>Momentos que guardamos</h2>
+          <p>Estas tarjetas son espacios reservados para colocar nuestras fotos, imágenes y videos favoritos.</p>
+        </div>
+        <div class="memory-grid">
+          <article class="memory-card"><div><h3>Fotos</h3><p>Agrega aquí nuestros momentos favoritos.</p></div></article>
+          <article class="memory-card"><div><h3>Videos</h3><p>Un lugar para revivir cada instante.</p></div></article>
+          <article class="memory-card"><div><h3>Más recuerdos</h3><p>La historia sigue escribiéndose.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="recuerdos-publicados" style="background:#f8edf0;">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div class="eyebrow">Actualizado con amor</div>
+          <h2>Recuerdos publicados</h2>
+          <p>Solo aparecen aquí las fotos y videos que Meyster haya marcado como publicados.</p>
+        </div>
+        <div id="live-media" class="live-gallery"><p>La galería aparecerá aquí cuando conectemos Supabase.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <h2>Te elegiría una y otra vez</h2>
+    <p>Meyster ♡ Ariana</p>
+  </footer>
+
+  <script>
+    // Zona horaria usada: UTC-05:00, de acuerdo con la hora indicada al iniciar la relación.
+    const startDate = new Date('2026-07-08T16:12:00-05:00');
+    const fields = {
+      days: document.getElementById('days'),
+      hours: document.getElementById('hours'),
+      minutes: document.getElementById('minutes'),
+      seconds: document.getElementById('seconds')
+    };
+    function updateCounter() {
+      const now = new Date();
+      let difference = Math.max(0, now - startDate);
+      const second = 1000, minute = second * 60, hour = minute * 60, day = hour * 24;
+      const days = Math.floor(difference / day); difference %= day;
+      const hours = Math.floor(difference / hour); difference %= hour;
+      const minutes = Math.floor(difference / minute); difference %= minute;
+      const seconds = Math.floor(difference / second);
+      fields.days.textContent = days.toLocaleString('es-MX');
+      fields.hours.textContent = String(hours).padStart(2, '0');
+      fields.minutes.textContent = String(minutes).padStart(2, '0');
+      fields.seconds.textContent = String(seconds).padStart(2, '0');
+    }
+    updateCounter();
+    setInterval(updateCounter, 1000);
+
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-public-gallery.js"></script>
+</body>
+</html>

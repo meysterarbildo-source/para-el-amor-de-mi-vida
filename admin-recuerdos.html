@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Administrar recuerdos | Ariana y Meyster</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--wine:#5f2338;--rose:#b85c78;--cream:#fff8fa;--ink:#351c28;--line:#ecd4dc}*{box-sizing:border-box}body{margin:0;padding:22px;background:var(--cream);color:var(--ink);font-family:Arial,sans-serif}main{max-width:980px;margin:auto}.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;margin:16px 0;box-shadow:0 10px 35px #5f23381a}h1,h2{font-family:Georgia,serif;color:var(--wine)}h1{font-size:clamp(2.4rem,7vw,4.8rem);margin:15px 0}h2{font-size:2rem}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}label{display:block;font-weight:bold;margin:12px 0 6px}input,textarea,select{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;font:inherit}textarea{min-height:80px}.button{border:0;border-radius:999px;padding:12px 18px;background:var(--wine);color:white;font-weight:bold;cursor:pointer}.button.secondary{background:#f1dce3;color:var(--wine)}.button.danger{background:#9b304b}.button:disabled{opacity:.55;cursor:not-allowed}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.muted{color:#765361;font-size:.9rem;line-height:1.6}.status{padding:12px;border-radius:10px;background:#f8edf0;margin-top:12px}.hidden{display:none}.media-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}.media-item{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff}.media-item img,.media-item video{display:block;width:100%;height:180px;object-fit:cover;background:#f2e5e9}.media-info{padding:12px}.media-info h3{margin:0 0 5px;color:var(--wine)}.media-info p{margin:4px 0}.pill{font-size:.75rem;padding:5px 9px;border-radius:999px;background:#f1dce3;color:var(--wine)}
+</style>
+</head>
+<body><main>
+<a href="index.html">← Volver a la página pública</a>
+<h1>Administrar recuerdos</h1>
+<p class="muted">Este panel es privado. Inicia sesión para subir fotos y videos, decidir qué se publica y eliminar recuerdos.</p>
+
+<section id="auth-card" class="card">
+  <h2>Acceso privado</h2>
+  <div class="grid">
+    <div><label for="email">Correo</label><input id="email" type="email" autocomplete="email" placeholder="tu-correo@ejemplo.com"></div>
+    <div><label for="password">Contraseña</label><input id="password" type="password" autocomplete="current-password" placeholder="••••••••"></div>
+  </div>
+  <div class="row" style="margin-top:16px"><button id="login" class="button">Iniciar sesión</button><button id="signup" class="button secondary">Crear cuenta</button></div>
+  <div id="auth-status" class="status muted">Usa la cuenta de Supabase que tendrá permiso de administración.</div>
+</section>
+
+<section id="admin-card" class="card hidden">
+  <div class="row" style="justify-content:space-between"><h2>Subir un recuerdo</h2><button id="logout" class="button secondary">Cerrar sesión</button></div>
+  <label for="files">Fotos o videos</label><input id="files" type="file" accept="image/*,video/mp4,video/webm,video/quicktime" multiple>
+  <div class="grid"><div><label for="title">Título opcional</label><input id="title" placeholder="Nuestro primer viaje"></div><div><label for="description">Descripción opcional</label><input id="description" placeholder="Un día que nunca olvidaré"></div></div>
+  <p class="muted">Formatos recomendados: JPG, PNG, WebP, MP4 o WebM. Para videos, intenta usar MP4 H.264 y un tamaño moderado.</p>
+  <button id="upload" class="button" disabled>Subir archivos</button><div id="upload-status" class="status muted">Selecciona uno o varios archivos.</div>
+</section>
+
+<section id="library-card" class="card hidden"><div class="row" style="justify-content:space-between"><h2>Biblioteca</h2><button id="refresh" class="button secondary">Actualizar</button></div><p class="muted">Los elementos en borrador no aparecen en la página pública. Pulsa Publicar cuando quieras mostrarlos.</p><div id="media-list" class="media-list"></div></section>
+</main>
+<script>
+const SUPABASE_URL = 'https://welchmcywrbolrndyzpf.supabase.co';
+const SUPABASE_ANON_KEY = 'PEGA_AQUI_TU_ANON_KEY';
+const { createClient } = window.supabase;
+const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const $ = id => document.getElementById(id);
+const authCard=$('auth-card'), adminCard=$('admin-card'), libraryCard=$('library-card');
+function status(text, error=false){$('auth-status').textContent=text;$('auth-status').style.color=error?'#9b304b':''}
+function uploadStatus(text){$('upload-status').textContent=text}
+function configured(){return !SUPABASE_ANON_KEY.includes('PEGA_AQUI')}
+function showAdmin(){authCard.classList.add('hidden');adminCard.classList.remove('hidden');libraryCard.classList.remove('hidden');loadMedia()}
+function showAuth(){authCard.classList.remove('hidden');adminCard.classList.add('hidden');libraryCard.classList.add('hidden')}
+$('login').onclick=async()=>{if(!configured())return status('Primero pega tu anon key en el código.',true);const {error}=await client.auth.signInWithPassword({email:$('email').value,password:$('password').value});if(error)return status(error.message,true);status('Sesión iniciada.');showAdmin()};
+$('signup').onclick=async()=>{if(!configured())return status('Primero pega tu anon key en el código.',true);const {data,error}=await client.auth.signUp({email:$('email').value,password:$('password').value});if(error)return status(error.message,true);status(data.session?'Cuenta creada y sesión iniciada.':'Cuenta creada. Revisa tu correo si Supabase solicita confirmación.');if(data.session)showAdmin()};
+$('logout').onclick=async()=>{await client.auth.signOut();showAuth()};
+$('files').onchange=()=>{$('upload').disabled=!$('files').files.length;uploadStatus($('files').files.length+' archivo(s) listo(s) para subir.')};
+$('upload').onclick=async()=>{const files=[...$('files').files];if(!files.length)return;const {data:{user}}=await client.auth.getUser();if(!user)return showAuth();$('upload').disabled=true;let ok=0;for(const file of files){try{const safeName=file.name.toLowerCase().replace(/[^a-z0-9._-]/g,'-');const path=`${user.id}/${Date.now()}-${crypto.randomUUID()}-${safeName}`;const type=file.type.startsWith('video/')?'video':'image';const up=await client.storage.from('media').upload(path,file,{contentType:file.type||undefined,upsert:false});if(up.error)throw up.error;const row=await client.from('media').insert({storage_path:path,media_type:type,title:$('title').value||null,description:$('description').value||null,is_published:false}).select().single();if(row.error)throw row.error;ok++}catch(e){uploadStatus('Error: '+e.message);break}}$('files').value='';$('upload').disabled=false;uploadStatus(ok+' archivo(s) subido(s) como borrador.');loadMedia()};
+async function loadMedia(){const {data,error}=await client.from('media').select('*').order('created_at',{ascending:false});if(error){$('media-list').innerHTML='<p class="muted">'+error.message+'</p>';return}$('media-list').innerHTML='';for(const item of data){const url=client.storage.from('media').getPublicUrl(item.storage_path).data.publicUrl;const el=item.media_type==='video'?`<video src="${url}" controls preload="metadata"></video>`:`<img src="${url}" alt="${item.title||'Recuerdo'}" loading="lazy">`;const card=document.createElement('article');card.className='media-item';card.innerHTML=`${el}<div class="media-info"><h3>${item.title||'Sin título'}</h3><p class="muted">${item.description||''}</p><span class="pill">${item.is_published?'Publicado':'Borrador'}</span><div class="row" style="margin-top:10px"><button class="button ${item.is_published?'secondary':''}" data-publish="${item.id}">${item.is_published?'Ocultar':'Publicar'}</button><button class="button danger" data-delete="${item.id}">Eliminar</button></div></div>`;$('media-list').append(card)}document.querySelectorAll('[data-publish]').forEach(b=>b.onclick=()=>togglePublish(b.dataset.publish));document.querySelectorAll('[data-delete]').forEach(b=>b.onclick=()=>deleteMedia(b.dataset.delete))}
+async function togglePublish(id){const {data}=await client.from('media').select('is_published').eq('id',id).single();if(!data)return;await client.from('media').update({is_published:!data.is_published}).eq('id',id);loadMedia()}
+async function deleteMedia(id){if(!confirm('¿Eliminar este recuerdo?'))return;const {data}=await client.from('media').select('storage_path').eq('id',id).single();if(!data)return;await client.storage.from('media').remove([data.storage_path]);await client.from('media').delete().eq('id',id);loadMedia()}
+$('refresh').onclick=loadMedia;client.auth.getSession().then(({data})=>data.session?showAdmin():showAuth());client.auth.onAuthStateChange((_event,session)=>session?showAdmin():showAuth());
+</script></body></html>
